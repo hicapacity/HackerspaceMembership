@@ -36,6 +36,17 @@ The requirements file is in the root of the repo.	It contains a list
 of all packages for pip to install.	You might need to run the pip 
 install later on when further changes introduce new dependencies.
 
+Local Database
+==============
+The local settings uses the sqlite backend. One will be created when you do
+a syncdb:
+
+	$> python manage.py syncdb
+
+If you want to start from scratch (modified a model?), just delete the sqlite3
+file and do a syncdb again.  Later on we'll make a data dump to fill in db
+data, or actually do proper migrations (using South).
+
 Running Dev Server
 ==================
 Make sure you're in your virtualenv

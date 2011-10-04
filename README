@@ -11,8 +11,8 @@ If you want the latest pip+virtualenv
 Use your local package manager to get easy_install (usually packagename
 is python-setuptools).
 
-  $> easy_install pip
-
+	$> easy_install pip
+	
 	... stuff happens
 
 	$> pip install virtualenvwrapper
@@ -23,24 +23,24 @@ Find python-pip and python-virtualenv and pip install virtualenvwrapper
 
 Setting Up Dev Environment
 ==========================
-The following will set up a virtualenv named 'hicap'.  Feel free to name
+The following will set up a virtualenv named 'hicap'.	Feel free to name
 it whatever you want.
 
-  $> mkvirtualenv hicap
+	$> mkvirtualenv hicap
 	$> pip install -r requirements.txt
 
 The next time you return to your machine just type:
-  $> workon hicap
+	$> workon hicap
 
-The requirements file is in the root of the repo.  It contains a list
-of all packages for pip to install.  You might need to run the pip 
+The requirements file is in the root of the repo.	It contains a list
+of all packages for pip to install.	You might need to run the pip 
 install later on when further changes introduce new dependencies.
 
 Running Dev Server
 ==================
 Make sure you're in your virtualenv
 
-  $> python manage.py runserver
+	$> python manage.py runserver
 
 You can also be all 'runserver 0.0.0.0:8080' to pick your IP and ports.
 Yeah, it's that simple.

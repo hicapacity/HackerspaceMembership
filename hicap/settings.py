@@ -101,6 +101,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'hicap.urls'
+AUTH_PROFILE_MODULE = 'membership.models.Maker'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".

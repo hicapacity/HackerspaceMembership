@@ -1,0 +1,4 @@
+BeautifulSoup
+Django
+simplejson
+gunicorn

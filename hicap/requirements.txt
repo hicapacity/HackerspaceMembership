@@ -2,4 +2,5 @@ BeautifulSoup
 Django
 simplejson
 gunicorn
+django-form-utils
 git+https://github.com/dcramer/django-paypal.git

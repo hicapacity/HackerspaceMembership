@@ -7,25 +7,24 @@ from hicap.membership.models import Maker
 from hicap.billing.models import Payment
 from django.contrib.auth.models import User, UserManager
 
-class BillingInlineForm(admin.StackedInline):
+class PaymentInlineAdmin(admin.StackedInline):
 	model = Payment
+	extra = 0
+	fieldsets = (
+		(None, {
+			'fields': ('payment_type', 'payment_method', 'payment_amount', 'cycle_start',),
+			}),
+		('Extra', {
+			'classes': ('collapse',),
+			'fields': ('num_cycle', 'payment_note',),
+			}),
+		)
 
-
-class MakerAdminForm(BetterModelForm):
+class MakerAdminForm(forms.ModelForm):
 	username = forms.CharField(min_length=8, max_length=30)
 	password = forms.CharField(required=False, help_text="Set blank to autogenerate")
 	class Meta:
 		model = Maker
-		fieldsets = (
-			(None, {
-				'fields': ('username', 'password'),
-				'legend': "Fish",
-				}),
-			('Display Info', {
-				'fields': ('display_name', 'email',),
-				'legend': "Display Info",
-				}),
-			)
 
 	def __init__(self, *args, **kwargs):
 		super(MakerAdminForm, self).__init__(*args, **kwargs)
@@ -80,7 +79,15 @@ class MakerAdminForm(BetterModelForm):
 
 class MakerAdmin(admin.ModelAdmin):
 	form = MakerAdminForm
-	inlines = (BillingInlineForm,)
+	inlines = (PaymentInlineAdmin,)
+	fieldsets = (
+		(None, {
+			'fields': ('username', 'password'),
+			}),
+		('Display Info', {
+			'fields': ('display_name', 'email',),
+			}),
+		)
 
 
 admin.site.register(Maker, MakerAdmin)

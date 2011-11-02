@@ -4,19 +4,32 @@ from django import forms
 from form_utils.forms import BetterModelForm
 
 from hicap.membership.models import Maker
-from hicap.billing.models import Payment
+from hicap.billing.models import MembershipPayment, Donation
 from django.contrib.auth.models import User, UserManager
 
-class PaymentInlineAdmin(admin.StackedInline):
-	model = Payment
+class DonationInlineAdmin(admin.StackedInline):
+	model = Donation
+	extra = 0
+	fieldsets = (
+	(None, {
+		'fields': ('payment_method', 'payment_amount', 'date',),
+		}),
+	('Extra', {
+		'classes': ('collapse',),
+		'fields': ('payment_note', 'payment_created'),
+		}),
+	)
+
+class MembershipPaymentInlineAdmin(admin.StackedInline):
+	model = MembershipPayment
 	extra = 0
 	fieldsets = (
 		(None, {
-			'fields': ('payment_type', 'payment_method', 'payment_amount', 'cycle_start',),
+			'fields': ('tier', 'payment_method', 'payment_amount', 'cycle_start',),
 			}),
 		('Extra', {
 			'classes': ('collapse',),
-			'fields': ('num_cycle', 'payment_note',),
+			'fields': ('num_cycle', 'payment_note', 'payment_created'),
 			}),
 		)
 
@@ -79,7 +92,7 @@ class MakerAdminForm(forms.ModelForm):
 
 class MakerAdmin(admin.ModelAdmin):
 	form = MakerAdminForm
-	inlines = (PaymentInlineAdmin,)
+	inlines = (MembershipPaymentInlineAdmin, DonationInlineAdmin)
 	fieldsets = (
 		(None, {
 			'fields': ('username', 'password'),
@@ -89,5 +102,5 @@ class MakerAdmin(admin.ModelAdmin):
 			}),
 		)
 
-
 admin.site.register(Maker, MakerAdmin)
+

@@ -34,6 +34,11 @@ class Payment(models.Model):
 	def __unicode__(self):
 		return "Mysterious Payment"
 
+	@classmethod
+	def monthly_sum(cls, start, end):
+		objs = cls.objects.filter(payment_created__gte=start, payment_created__lte=end).aggregate(sum = models.Sum('payment_amount'))
+		return objs['sum']
+
 	class Meta:
 		abstract = True
 

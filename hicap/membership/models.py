@@ -9,3 +9,5 @@ class Maker(models.Model):
 	def __unicode__(self):
 		return "{name} ({user})".format(name=self.display_name, user=self.user.username)
 
+	def is_current(self):
+		return True

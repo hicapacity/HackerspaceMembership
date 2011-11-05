@@ -34,7 +34,7 @@ class MembershipPaymentInlineAdmin(admin.StackedInline):
 		)
 
 class MakerAdminForm(forms.ModelForm):
-	username = forms.CharField(min_length=8, max_length=30)
+	username = forms.CharField(max_length=30)
 	password = forms.CharField(required=False, help_text="Set blank to autogenerate")
 	class Meta:
 		model = Maker
@@ -51,10 +51,12 @@ class MakerAdminForm(forms.ModelForm):
 
 		instance = self.instance
 
+		print cleaned_data
 		try:
 			target_user = User.objects.get(username=cleaned_data['username'])
 		except User.DoesNotExist:
-			self._errors['username'] = self.error_class(['User doesn\'t exist'])
+			target_user = None
+		except KeyError:
 			target_user = None
 
 		if target_user:
@@ -77,12 +79,15 @@ class MakerAdminForm(forms.ModelForm):
 				user = User.objects.get(username=data['username'])
 				model.user = user
 			except User.DoesNotExist:
-				raise ValidationError('User doesn\'t exist')
-
-
-		print self.initial['password']
-		if data['password'] == '':
-			print "password blank"
+				user = User()
+				user.username = data['username']
+				if 'password' in data:
+					password = data['password']
+				else:
+					password = UserManager.make_random_password()
+				user.set_password(password)
+				user.save()
+				model.user = user
 
 		if commit:
 			model.save()

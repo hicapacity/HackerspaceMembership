@@ -3,4 +3,5 @@ Django
 simplejson
 gunicorn
 django-form-utils
+django-admin-tools
 git+https://github.com/dcramer/django-paypal.git

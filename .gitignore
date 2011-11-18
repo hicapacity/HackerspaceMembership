@@ -4,3 +4,5 @@
 *.sqlite3
 *.swp
 .idea/
+cached_static/
+settings_production.py*

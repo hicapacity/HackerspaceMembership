@@ -51,7 +51,6 @@ class MakerAdminForm(forms.ModelForm):
 
 		instance = self.instance
 
-		print cleaned_data
 		try:
 			target_user = User.objects.get(username=cleaned_data['username'])
 		except User.DoesNotExist:
@@ -61,7 +60,7 @@ class MakerAdminForm(forms.ModelForm):
 
 		if target_user:
 			try:
-				if target_user.maker.pk is not instance.pk:
+				if target_user.maker.pk != instance.pk:
 					self._errors['username'] = self.error_class(['User already has profile'])
 			except Maker.DoesNotExist:
 				pass

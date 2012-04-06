@@ -1,0 +1,10 @@
+<form action="{% url maker_login %}" method="POST">
+	{% csrf_token %}
+	<div class="control-group">
+	{{ auth_form.username }}
+	</div>
+	<div class="control-group">
+	{{ auth_form.password }}
+	</div>
+	<button type="submit" class="btn">Login</button>
+</form>

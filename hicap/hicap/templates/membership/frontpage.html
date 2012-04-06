@@ -1,0 +1,14 @@
+{% extends "page.html" %}
+{% block content %}
+<div class="hero-unit">
+	<h1>Welcome?</h1>
+</div>
+{% endblock %}
+{% block sidebar_content %}
+	<li class="nav-header">Sidebar</li>
+	<li class="active"><a href="#">Link</a></li>
+	<li><a href="#">Link</a></li>
+	<li><a href="#">Link</a></li>
+	<li class="nav-header">Login</li>
+	{% include "partials/login.html" %}
+{% endblock sidebar_content %}

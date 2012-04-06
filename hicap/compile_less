@@ -1,0 +1,21 @@
+#!/bin/env python
+
+import pyinotify
+import os
+
+wm = pyinotify.WatchManager()  # Watch Manager
+mask = pyinotify.IN_CREATE  # watched events
+cmd = "lessc -x static/main.less > static/css/main.css"
+class EventHandler(pyinotify.ProcessEvent):
+    def process_IN_CREATE(self, event):
+				if event.name.endswith('.less'):
+						os.system('date')
+						print "Creating:", event.pathname
+						os.system(cmd)
+
+handler = EventHandler()
+notifier = pyinotify.Notifier(wm, handler)
+wdd = wm.add_watch('static/less/', mask, rec=True)
+
+notifier.loop()
+

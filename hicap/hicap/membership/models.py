@@ -67,6 +67,11 @@ class Maker(models.Model):
 			return self.associated_user.has_perm(perm, obj)
 		return False
 
+	def has_module_perms(self, package_name):
+		if self.associated_user:
+			return self.associated_user.has_module_perms(package_name)
+		return False
+
 	@property
 	def associated_user(self):
 		if not hasattr(self, "_shadowed_user"):

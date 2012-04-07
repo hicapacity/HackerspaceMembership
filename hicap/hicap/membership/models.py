@@ -52,14 +52,16 @@ class Maker(models.Model):
 			return True
 		return False
 
+	@property
 	def is_active(self):
 		if self.associated_user:
-			return self.associated_user.is_staff()
-		return True
+			return self.associated_user.is_active
+		return False
 
+	@property
 	def is_staff(self):
 		if self.associated_user:
-			return self.associated_user.is_staff()
+			return self.associated_user.is_staff
 		return False
 
 	def has_perm(self, perm, obj=None):

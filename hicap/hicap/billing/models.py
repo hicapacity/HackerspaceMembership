@@ -50,8 +50,9 @@ class MembershipPayment(Payment):
 	auto_normalize_cycle_end = models.BooleanField(default=True, help_text = 'Automatically calculate cycle_end on save, disable if you need to manually modify that')
 
 	def __unicode__(self):
-		return "Membership: {username} {start} to {end}".format(
+		return "Membership: {username} ({value}) {start} to {end}".format(
 			username = self.maker.username,
+			value = self.payment_amount,
 			start = self.cycle_start,
 			end = self.norm_cycle_end,
 		)

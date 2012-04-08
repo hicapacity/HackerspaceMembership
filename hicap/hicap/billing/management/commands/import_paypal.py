@@ -53,7 +53,7 @@ class Command(BaseCommand):
 				sys.stderr.write("{name} ({email}) -> {username}\n".format(name=member.name, email=member.email, username=member.username))
 			except Maker.DoesNotExist:
 				member.username = member.name.lower().replace(' ' , '.')
-				first, last = member.name.split(' ', 1), ""
+				first, last = (member.name.split(' ', 1) + ["", ""])[:2]
 				m = Maker(username=member.username, first_name = first, last_name = last, email = member.email)
 				m.save()
 				sys.stderr.write("{name} ({email}) -> NEW {username}\n".format(name=member.name, email=member.email, username=member.username))

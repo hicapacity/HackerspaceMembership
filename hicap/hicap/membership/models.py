@@ -7,11 +7,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save
 
 class Maker(models.Model):
-	username = models.CharField(_('username'), max_length=30, unique=True, help_text=_("Required. 30 characters or fewer. Letters, numbers and @/./+/-/_ characters"))
-	first_name = models.CharField(_('first name'), max_length=30, blank=True)
-	last_name = models.CharField(_('last name'), max_length=30, blank=True)
+	username = models.CharField(_('username'), max_length=255, unique=True, help_text=_("Required. 30 characters or fewer. Letters, numbers and @/./+/-/_ characters"))
+	first_name = models.CharField(_('first name'), max_length=255, blank=True)
+	last_name = models.CharField(_('last name'), max_length=255, blank=True)
 	email = models.EmailField(_('e-mail address'), blank=True)
-	password = models.CharField(_('password'), max_length=128, help_text=_("Use '[algo]$[salt]$[hexdigest]' or use the <a href=\"password/\">change password form</a>."))
+	password = models.CharField(_('password'), max_length=255, help_text=_("Use '[algo]$[salt]$[hexdigest]' or use the <a href=\"password/\">change password form</a>."))
 	last_login = models.DateTimeField(_('last login'), default=datetime.datetime.now)
 	date_joined = models.DateTimeField(_('date joined'), default=datetime.datetime.now)
 

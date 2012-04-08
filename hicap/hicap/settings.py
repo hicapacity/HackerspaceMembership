@@ -48,7 +48,7 @@ USE_I18N = True
 USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = True
+USE_TZ = False
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
@@ -138,6 +138,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'paypal.standard.ipn',
     'hicap.membership',
     'hicap.billing',
 )
@@ -173,3 +174,5 @@ LOGGING = {
 
 ADMIN_TOOLS_INDEX_DASHBOARD = 'hicap.dashboard.CustomIndexDashboard'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
+
+PAYPAL_RECEIVER_EMAIL = 'yourpaypalemail@lol'

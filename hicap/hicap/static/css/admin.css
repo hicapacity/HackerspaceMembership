@@ -1,0 +1,25 @@
+.columns{
+}
+.column{
+	float: left;
+	width: 49%;
+}
+.grid {
+	fill: none;
+}
+.grid text {
+	fill: #000;
+}
+
+.grid line{
+	fill: none;
+	stroke: #000;
+}
+
+.grid .tick.minor{
+	stroke: #ccc;
+}
+.chart .payment{
+	stroke: rgba(0, 0, 125, 1);
+	fill: rgba(0, 0, 255, 0.5);
+}

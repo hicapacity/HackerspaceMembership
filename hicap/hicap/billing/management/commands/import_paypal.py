@@ -27,10 +27,11 @@ class Command(BaseCommand):
 		members = dict()
 		for fn in args:
 			with open(fn) as fh:
-				reader = csv.DictReader(fh, dialect="excel-tab")
+				reader = csv.DictReader(fh)
 				for _row in reader:
 					# need to clean up this bad dict
 					row = dict((k.strip().upper(), v) for k,v in _row.iteritems())
+					print row
 					m = FauxMember(name=row.get('NAME'), email=row.get('FROM EMAIL ADDRESS'))
 					dt = datetime.strptime(
 						"{d} {t}".format(d=row.get('DATE'), t=row.get('TIME')),

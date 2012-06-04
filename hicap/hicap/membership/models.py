@@ -89,6 +89,14 @@ class Maker(models.Model):
 		objs = MembershipPayment.objects.filter(cycle_start__lte=date, norm_cycle_end__gte=date)
 		return len(objs)
 
+	@property
+	def forJSON(self):
+		return {
+			'id': self.pk,
+			'name': self.get_full_name(),
+			'email': self.email,
+		}
+
 
 
 def on_post_save(instance, **kwargs):

@@ -44,6 +44,7 @@ class Payment(models.Model):
 	payment_created = models.DateTimeField(default=datetime.now)
 	payment_amount = models.DecimalField(max_digits = 7, decimal_places = 2, blank = True, null = True, help_text = 'USD Currency')
 	payment_note = models.TextField(blank = True, help_text = 'Insert other notes here as needed (Like check number, transaction number, confirmation)')
+	payment_identifier = models.CharField(max_length=255, blank=True)
 
 	def __unicode__(self):
 		return "Mysterious Payment"
@@ -180,6 +181,7 @@ def create_from_ipn(sender, **kwargs):
 		)
 		m.save()
 	amount = decimal.Decimal(getattr(ipn_obj, 'payment_amount', '0.00'))
+	txn_id = getattr(ipn_obj, 'txn_id', None)
 	tier = TIER_ELITE if (amount >= 50) else TIER_STANDARD
 	p = MembershipPayment(
 		maker = m,
@@ -187,6 +189,7 @@ def create_from_ipn(sender, **kwargs):
 		payment_created = datetime.now(),
 		payment_amount = amount,
 		payment_note = "Imported from paypal ipn",
+		payment_identifier = txn_id,
 		tier = tier,
 		cycle_start = datetime.now(),
 		num_cycle = 1,
@@ -194,13 +197,6 @@ def create_from_ipn(sender, **kwargs):
 	p.save()
 	print p
 			
-	tier = models.IntegerField(choices=MEMBERSHIP_TIERS, default=TIER_STANDARD)
-	cycle_start = models.DateField(blank = True, null = True, help_text = 'For membership only: start date for cycle this payment applies to')
-	norm_cycle_end = models.DateField(blank = True, null = True)
-	num_cycle = models.IntegerField(default = 1, help_text = 'If payment is for multiple months')
-	auto_normalize_cycle_end = models.BooleanField(default=True, help_text = 'Automatically calculate cycle_end on save, disable if you need to manually modify that')
-	
-		
 from paypal.standard.ipn.signals import payment_was_successful
 payment_was_successful.connect(partial(log_ipn, _signal_name="Payment was successful"), weak=False)
 payment_was_successful.connect(create_from_ipn, weak=False)

@@ -1,0 +1,14 @@
+.hc_loginform{
+}
+.hc_loginform .control-group input{
+	width: 90%;
+}
+.hc_sidebar {
+	padding: 8px 0;
+}
+.hc_hero {
+	padding: 16px;
+}
+.hc_hero h1{
+	font-size: 36px;
+}

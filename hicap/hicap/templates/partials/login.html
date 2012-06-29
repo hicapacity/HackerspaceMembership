@@ -1,4 +1,4 @@
-<form action="{% url maker_login %}" method="POST">
+<form class="hc_loginform" action="{% url maker_login %}" method="POST">
 	{% csrf_token %}
 	<div class="control-group">
 	{{ auth_form.username }}

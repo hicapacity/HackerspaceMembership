@@ -1,7 +1,11 @@
 {% extends "page.html" %}
-{% block content %}
-<div class="hero-unit">
-	<h1>Welcome?</h1>
+{% block body_content %}
+<div class="hero-unit hc_hero">
+	<h1>HiCapacity Membership Area</h1>
+</div>
+<div class="row-fluid">
+	<h2>News</h2>
+	<p>There is no news</p>
 </div>
 {% endblock %}
 {% block sidebar_content %}
@@ -10,5 +14,5 @@
 	<li><a href="#">Link</a></li>
 	<li><a href="#">Link</a></li>
 	<li class="nav-header">Login</li>
-	{% include "partials/login.html" %}
+	<li>{% include "partials/login.html" %}</li>
 {% endblock sidebar_content %}

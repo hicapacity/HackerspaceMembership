@@ -52,6 +52,13 @@ class Maker(models.Model):
 			return True
 		return False
 
+	def last_cycle_end(self):
+		try:
+			obj = self.membershippayment_set.latest('norm_cycle_end')
+			return obj.norm_cycle_end
+		except MembershipPayment.DoesNotExist:
+			return None
+
 	@property
 	def is_active(self):
 		if self.associated_user:

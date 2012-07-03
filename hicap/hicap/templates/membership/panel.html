@@ -4,12 +4,9 @@
 	<h1>HiCap Membership Panel</h1>
 </div>
 <div class="row-fluid">
-	<h2>Membership Status</h2>
-	<p>No status yet</p>
+	{% include "partials/user_status.html" %}
 </div>
 {% endblock %}
 {% block sidebar_content %}
-	<li class="nav-header">Sidebar</li>
-	<li><a href="#">Info</a></li>
-	<li><a href="#">Billing History</a></li>
+	{% include "membership/sidebar.html" %}
 {% endblock %} 

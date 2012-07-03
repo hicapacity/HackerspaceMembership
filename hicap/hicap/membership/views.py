@@ -43,10 +43,28 @@ class MemberView(object):
 	@classmethod
 	def panel(cls, request):
 		if not request.user.is_authenticated():
-			#return HttpResponseRedirect('/login/?next=%s' % request.path)
 			return redirect("maker_login")
-		context = {}
+		context = {'here': 'login'}
 		return render_to_response("membership/panel.html", context, context_instance=RequestContext(request))
+
+	@classmethod
+	def profile(cls, request):
+		if not request.user.is_authenticated():
+			return redirect("maker_login")
+		context = {'here': 'profile'}
+		return render_to_response("membership/profile.html", context, context_instance=RequestContext(request))
+
+	@classmethod
+	def billing(cls, request):
+		if not request.user.is_authenticated():
+			return redirect("maker_login")
+		history = request.user.membershippayment_set.all()
+		context = {
+			'here': 'billing',
+			'history': history,
+		}
+		return render_to_response("membership/billing.html", context, context_instance=RequestContext(request))
+
 
 @staff_member_required
 def admin_member_report(request, report_date=None):

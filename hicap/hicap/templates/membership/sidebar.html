@@ -1,0 +1,22 @@
+	<li class="nav-header">Sidebar</li>
+	<li>
+		{% if here == 'login' %}
+			Home
+		{% else %}
+			<a href="{% url maker_panel %}">Home</a>
+		{% endif %}
+	</li>
+	<li>
+		{% if here == 'profile' %}
+			Info	
+		{% else %}
+			<a href="{% url maker_profile %}">Info</a>
+		{% endif %}
+	</li>
+	<li>
+		{% if here == 'billing' %}
+			Billing History	
+		{% else %}
+			<a href="{% url maker_billing %}">Billing History</a>
+		{% endif %}
+	</li>

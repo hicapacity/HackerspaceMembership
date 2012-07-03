@@ -1,0 +1,23 @@
+{% extends "page.html" %}
+{% block body_content %}
+<h1>Billing History</h1>
+<ul>
+{% for item in history %}
+<li>
+	{% if item.payment_method == 'PP' %}
+		Paypal
+	{% endif %} 
+	{% if item.payment_method == 'CC' %}
+		Credit Card
+	{% endif %} 
+	{% if item.payment_method == 'CK' %}
+		Check	
+	{% endif %} 
+	{{ item.payment_amount }} - {{ item.cycle_start }}
+</li>
+{% endfor %}
+</ul>
+{% endblock body_content %}
+{% block sidebar_content %}
+	{% include "membership/sidebar.html" %}
+{% endblock sidebar_content %}

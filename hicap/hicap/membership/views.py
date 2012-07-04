@@ -87,6 +87,17 @@ class MemberView(object):
 		}
 		return render_to_response("membership/billing.html", context, context_instance=RequestContext(request))
 
+	@classmethod
+	def community(cls, request):
+		if not request.user.is_authenticated():
+			return redirect("maker_login")
+		_makers = Maker.objects.filter(publish_membership=True).select_related()
+		makers = [m for m in _makers if m.is_current()]
+		context = {
+			'makers': makers,
+		}
+		return render_to_response("membership/community.html", context, context_instance=RequestContext(request))
+
 
 @staff_member_required
 def admin_member_report(request, report_date=None):

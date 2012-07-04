@@ -1,0 +1,15 @@
+{% extends "page.html" %}
+{% block body_content %}
+<h1>Maker Community</h1>
+<ul>
+{% for maker in makers %}
+	<li>
+		{{ maker.first_name }} {{ maker.last_name }}<br>
+		email: {{maker.email}}
+	</li>
+{% endfor %}
+</ul>
+{% endblock body_content %}
+{% block sidebar_content %}
+	{% include "membership/sidebar.html" %}
+{% endblock sidebar_content %}

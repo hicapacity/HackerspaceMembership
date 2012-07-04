@@ -1,4 +1,4 @@
-	<li class="nav-header">Sidebar</li>
+	<li class="nav-header">Profile</li>
 	<li>
 		{% if here == 'login' %}
 			Home
@@ -18,5 +18,13 @@
 			Billing History	
 		{% else %}
 			<a href="{% url maker_billing %}">Billing History</a>
+		{% endif %}
+	</li>
+	<li class="nav-header">Community</li>
+	<li>
+		{% if here == 'community' %}
+			Membership List
+		{% else %}
+			<a href="{% url maker_community %}">Membership List</a>
 		{% endif %}
 	</li>

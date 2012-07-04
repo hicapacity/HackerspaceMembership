@@ -6,7 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from hicap.membership.models import Maker
-from hicap.membership.forms import MakerAuthForm
+from hicap.membership.forms import MakerAuthForm, MakerProfileForm
 from hicap.billing.models import MembershipPayment, Donation
 from datetime import datetime, date
 from decimal import Decimal
@@ -51,7 +51,29 @@ class MemberView(object):
 	def profile(cls, request):
 		if not request.user.is_authenticated():
 			return redirect("maker_login")
-		context = {'here': 'profile'}
+
+		if request.method == 'POST':
+			form = MakerProfileForm(request.POST, instance = request.user)
+			error = True
+			if form.is_valid():
+				try:
+					form.save()
+					error = False
+					msg = "Success"
+				except Exception as e:
+					msg = e.message
+			else:
+				msg = "Error Saving"
+		else:
+			form = MakerProfileForm(instance = request.user)
+			error = None
+			msg = None
+		context = {
+			'here': 'profile',
+			'form': form,
+			'error': error,
+			'msg': msg,
+		}
 		return render_to_response("membership/profile.html", context, context_instance=RequestContext(request))
 
 	@classmethod

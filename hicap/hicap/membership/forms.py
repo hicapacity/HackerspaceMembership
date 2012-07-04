@@ -13,3 +13,6 @@ class MakerProfileForm(forms.ModelForm):
 class PasswordChangeForm(forms.Form):
 	old_password = forms.fields.CharField(widget=forms.widgets.PasswordInput(attrs={"placeholder": "Password"}))
 	new_password = forms.fields.CharField(widget=forms.widgets.PasswordInput(attrs={"placeholder": "New Password"}))
+
+class PasswordResetForm(forms.Form):
+	username = forms.fields.CharField(widget=forms.widgets.TextInput(attrs={"placeholder": "Username"}))

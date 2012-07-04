@@ -6,7 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from hicap.membership.models import Maker
-from hicap.membership.forms import MakerAuthForm, MakerProfileForm, PasswordChangeForm
+from hicap.membership.forms import MakerAuthForm, MakerProfileForm, PasswordChangeForm, PasswordResetForm
 from hicap.billing.models import MembershipPayment, Donation
 from datetime import datetime, date
 from decimal import Decimal
@@ -122,6 +122,37 @@ class MemberView(object):
 			'msg': msg,
 		}
 		return render_to_response("membership/password.html", context, context_instance=RequestContext(request))
+
+	@classmethod
+	def reset_password(cls, request):
+		error = None
+		msg = None
+
+		if request.method == 'GET':
+			form = PasswordResetForm()
+
+		if request.method == 'POST':
+			username = request.POST['username']
+			if len(username) > 0:
+				try:
+					maker = Maker.objects.get(username=username)
+				except Maker.DoesNotExist:
+					pass
+				maker.send_reset_password()
+				error = False
+				msg = "Check your email"
+			else:
+				error = True
+				msg = "Empty fields yo"
+			form = PasswordResetForm()
+
+		context = {
+			'here': 'password',
+			'form': form,
+			'error': error,
+			'msg': msg,
+		}
+		return render_to_response("membership/reset_password.html", context, context_instance=RequestContext(request))
 
 	@classmethod
 	@require_maker_login

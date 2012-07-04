@@ -106,6 +106,9 @@ class Maker(models.Model):
 			'email': self.email,
 		}
 
+	def send_reset_password(self):
+		print "sending reset password"
+
 
 
 def on_post_save(instance, **kwargs):

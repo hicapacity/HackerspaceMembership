@@ -29,7 +29,7 @@ class Maker(models.Model):
 		return self.username
 
 	def save(self, *args, **kwargs):
-		self.maker_password_set = None
+		self._password_set = None
 		if self.password == "":
 			password = User.objects.make_random_password()
 			self.set_password(password)
@@ -41,6 +41,7 @@ class Maker(models.Model):
 			except Maker.DoesNotExist:
 				prev_password = ""
 			if prev_password != self.password:
+				self._password_set = self.password
 				self.set_password(self.password)
 		super(Maker, self).save(*args, **kwargs)
 
@@ -108,8 +109,11 @@ class Maker(models.Model):
 
 
 def on_post_save(instance, **kwargs):
-	if instance.maker_password_set is not None:
-		pass
+	if instance._password_set is not None:
+		user = instance.associated_user
+		if user is not None:
+			user.set_password(instance._password_set)
+			user.save()
 
 post_save.connect(
 	on_post_save,

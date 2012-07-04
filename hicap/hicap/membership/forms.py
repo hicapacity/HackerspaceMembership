@@ -9,3 +9,7 @@ class MakerProfileForm(forms.ModelForm):
 	class Meta:
 		model = Maker
 		exclude = ('username', 'password', 'last_login', 'date_joined')
+
+class PasswordChangeForm(forms.Form):
+	old_password = forms.fields.CharField(widget=forms.widgets.PasswordInput(attrs={"placeholder": "Password"}))
+	new_password = forms.fields.CharField(widget=forms.widgets.PasswordInput(attrs={"placeholder": "New Password"}))

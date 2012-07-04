@@ -1,12 +1,12 @@
 # Create your views here.
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from hicap.membership.models import Maker
-from hicap.membership.forms import MakerAuthForm, MakerProfileForm
+from hicap.membership.forms import MakerAuthForm, MakerProfileForm, PasswordChangeForm
 from hicap.billing.models import MembershipPayment, Donation
 from datetime import datetime, date
 from decimal import Decimal
@@ -92,6 +92,36 @@ class MemberView(object):
 			'msg': msg,
 		}
 		return render_to_response("membership/profile.html", context, context_instance=RequestContext(request))
+
+	@classmethod
+	@require_maker_login
+	def password(cls, request, maker):
+		error = None
+		msg = None
+		if request.method == 'POST':
+			error = True
+			old_password = request.POST['old_password']
+			new_password = request.POST['new_password']
+			user = authenticate(username=maker.username, password=old_password)
+			if user is not None:
+				if len(new_password) > 0:
+					maker.password = new_password
+					maker.save()
+					error = False
+					msg = 'Password Changed'
+				else:
+					msg = 'No new password. LoL'
+			else:
+				msg = 'Your password is wrong. LoL'
+		form = PasswordChangeForm()
+		context = {
+			'here': 'password',
+			'maker': maker,
+			'form': form,
+			'error': error,
+			'msg': msg,
+		}
+		return render_to_response("membership/password.html", context, context_instance=RequestContext(request))
 
 	@classmethod
 	@require_maker_login

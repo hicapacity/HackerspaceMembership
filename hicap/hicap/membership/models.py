@@ -14,6 +14,7 @@ class Maker(models.Model):
 	password = models.CharField(_('password'), max_length=255, help_text=_("Use '[algo]$[salt]$[hexdigest]' or use the <a href=\"password/\">change password form</a>."))
 	last_login = models.DateTimeField(_('last login'), default=datetime.datetime.now)
 	date_joined = models.DateTimeField(_('date joined'), default=datetime.datetime.now)
+	publish_membership = models.BooleanField(_('Publish Membership'), default=False)
 
 	get_full_name = User.__dict__['get_full_name']
 	set_password = User.__dict__['set_password']

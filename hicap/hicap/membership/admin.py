@@ -49,6 +49,9 @@ class MakerAdmin(admin.ModelAdmin):
 		('Display Info', {
 			'fields': ('first_name', 'last_name', 'email',),
 			}),
+		('Options', {
+			'fields': ('publish_membership',),
+			}),
 		)
 
 admin.site.register(Maker, MakerAdmin)

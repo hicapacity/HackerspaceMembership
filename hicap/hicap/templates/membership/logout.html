@@ -1,0 +1,11 @@
+{% extends "page.html" %}
+{% block body_content %}
+<h1>Logged Out</h1>
+{% if auth_form.is_bound %}
+	<div class="alert">
+		Credentials Wrong
+	</div>
+{% endif %}
+{% include "partials/login.html" %}
+{% endblock body_content %}
+{% block sidebar %}{% endblock sidebar %}

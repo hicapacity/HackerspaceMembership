@@ -8,6 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
 		url(r'^$', MemberView.frontpage, name='home'),
 		url(r'^maker/login/$', MemberView.login, name='maker_login'),
+		url(r'^maker/logout/$', MemberView.logout, name='maker_logout'),
 		url(r'^maker/panel/$', MemberView.panel, name='maker_panel'),
 		url(r'^maker/profile/$', MemberView.profile, name='maker_profile'),
 		url(r'^maker/billing/$', MemberView.billing, name='maker_billing'),

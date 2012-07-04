@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from hicap.membership.models import Maker
 from hicap.membership.forms import MakerAuthForm, MakerProfileForm
@@ -50,6 +50,11 @@ class MemberView(object):
 			auth_form = MakerAuthForm()
 		context = {"auth_form": auth_form}
 		return render_to_response("membership/login.html", context, context_instance=RequestContext(request))
+
+	@classmethod
+	def logout(cls, request):
+		logout(request)
+		return redirect("maker_login")
 
 	@classmethod
 	@require_maker_login

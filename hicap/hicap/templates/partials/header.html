@@ -5,9 +5,10 @@
 		<li><a href="#about">About</a></li>
 		<li><a href="#contact">Contact</a></li>
 	</ul>
-	{% if user %}
+	{% if maker %}
 	<ul class="nav pull-right">
-		<li><a>Blah</a></li>
+		<li><a href="{% url maker_panel %}">{{ maker.username }}</a></li>
+		<li><a href="{% url maker_logout %}">Logout</a></li>
 	</ul>
 	{% endif %}
 </div>

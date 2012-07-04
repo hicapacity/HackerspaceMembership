@@ -9,8 +9,9 @@
 			<dd>Til {{ user.last_cycle_end }}</dd>
 		{% else %}
 			<dd class="hc_not_current"><i class="icon-exclamation-sign"></i>Not Current</dd>
-			{% if 
+			{% if user.last_cycle_end %}
 			<dd>Ended {{ user.last_cycle_end }}</dd>
+			{% endif %}
 		{% endif %}
 </dl>
 {% else %}

@@ -15,6 +15,10 @@
 .hc_user_status {
 }
 .hc_user_status .hc_current{
+	color: #090;
+	font-weight: bold;
 }
-.hc_user_status {
+.hc_user_status .hc_not_current{
+	color: #900;
+	font-weight: bold;
 }

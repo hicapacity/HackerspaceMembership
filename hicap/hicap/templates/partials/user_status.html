@@ -1,16 +1,16 @@
 <h2>Membership Status</h2>
-{% if user %}
+{% if maker %}
 <dl class="hc_user_status">
 	<dt>ID</dt>
-		<dd>{{ user.username }}</dd>
+		<dd>{{ maker.username }}</dd>
 	<dt>Current Status</dt>
-		{% if user.is_current %}
+		{% if maker.is_current %}
 			<dd class="hc_current"><i class="icon-ok"></i>Current</dd>
-			<dd>Til {{ user.last_cycle_end }}</dd>
+			<dd>Til {{ maker.last_cycle_end }}</dd>
 		{% else %}
 			<dd class="hc_not_current"><i class="icon-exclamation-sign"></i>Not Current</dd>
-			{% if user.last_cycle_end %}
-			<dd>Ended {{ user.last_cycle_end }}</dd>
+			{% if maker.last_cycle_end %}
+			<dd>Ended {{ maker.last_cycle_end }}</dd>
 			{% endif %}
 		{% endif %}
 </dl>

@@ -18,6 +18,17 @@ def get_this_month():
 	date = datetime.now()
 	return date
 
+def require_maker_login(func):
+	def wrapped(cls, request):
+		if not request.user.is_authenticated():
+			return redirect("maker_login")
+		if request.user.__class__ is not Maker:
+			maker = Maker.objects.get(username=request.user.username)
+		else:
+			maker = request.user
+		return func(cls, request, maker)
+	return wrapped
+
 class MemberView(object):
 	@classmethod
 	def frontpage(cls, request):
@@ -41,19 +52,19 @@ class MemberView(object):
 		return render_to_response("membership/login.html", context, context_instance=RequestContext(request))
 
 	@classmethod
-	def panel(cls, request):
-		if not request.user.is_authenticated():
-			return redirect("maker_login")
-		context = {'here': 'login'}
+	@require_maker_login
+	def panel(cls, request, maker):
+		context = {
+			'here': 'login',
+			'maker': maker,
+		}
 		return render_to_response("membership/panel.html", context, context_instance=RequestContext(request))
 
 	@classmethod
-	def profile(cls, request):
-		if not request.user.is_authenticated():
-			return redirect("maker_login")
-
+	@require_maker_login
+	def profile(cls, request, maker):
 		if request.method == 'POST':
-			form = MakerProfileForm(request.POST, instance = request.user)
+			form = MakerProfileForm(request.POST, instance = maker)
 			error = True
 			if form.is_valid():
 				try:
@@ -65,11 +76,12 @@ class MemberView(object):
 			else:
 				msg = "Error Saving"
 		else:
-			form = MakerProfileForm(instance = request.user)
+			form = MakerProfileForm(instance = maker)
 			error = None
 			msg = None
 		context = {
 			'here': 'profile',
+			'maker': maker,
 			'form': form,
 			'error': error,
 			'msg': msg,
@@ -77,23 +89,24 @@ class MemberView(object):
 		return render_to_response("membership/profile.html", context, context_instance=RequestContext(request))
 
 	@classmethod
-	def billing(cls, request):
-		if not request.user.is_authenticated():
-			return redirect("maker_login")
-		history = request.user.membershippayment_set.all()
+	@require_maker_login
+	def billing(cls, request, maker):
+		history = maker.membershippayment_set.all()
 		context = {
 			'here': 'billing',
+			'maker': maker,
 			'history': history,
 		}
 		return render_to_response("membership/billing.html", context, context_instance=RequestContext(request))
 
 	@classmethod
+	@require_maker_login
 	def community(cls, request):
-		if not request.user.is_authenticated():
-			return redirect("maker_login")
 		_makers = Maker.objects.filter(publish_membership=True).select_related()
 		makers = [m for m in _makers if m.is_current()]
 		context = {
+			'here': 'community',
+			'maker': maker,
 			'makers': makers,
 		}
 		return render_to_response("membership/community.html", context, context_instance=RequestContext(request))

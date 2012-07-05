@@ -5,10 +5,10 @@ from django.http import HttpResponse, Http404
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from hicap.membership.models import Maker
-from hicap.membership.forms import MakerAuthForm, MakerProfileForm, PasswordChangeForm, PasswordResetForm
+from hicap.membership.models import Maker, ResetNonce
+from hicap.membership.forms import MakerAuthForm, MakerProfileForm, PasswordChangeForm, PasswordResetForm, PasswordResetRequestForm
 from hicap.billing.models import MembershipPayment, Donation
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from decimal import Decimal
 import time
 
@@ -124,12 +124,12 @@ class MemberView(object):
 		return render_to_response("membership/password.html", context, context_instance=RequestContext(request))
 
 	@classmethod
-	def reset_password(cls, request):
+	def password_reset_request(cls, request):
 		error = None
 		msg = None
 
 		if request.method == 'GET':
-			form = PasswordResetForm()
+			form = PasswordResetRequestForm()
 
 		if request.method == 'POST':
 			username = request.POST['username']
@@ -138,13 +138,13 @@ class MemberView(object):
 					maker = Maker.objects.get(username=username)
 				except Maker.DoesNotExist:
 					pass
-				maker.send_reset_password()
+				maker.send_password_reset()
 				error = False
 				msg = "Check your email"
 			else:
 				error = True
 				msg = "Empty fields yo"
-			form = PasswordResetForm()
+			form = PasswordResetRequestForm()
 
 		context = {
 			'here': 'password',
@@ -152,7 +152,51 @@ class MemberView(object):
 			'error': error,
 			'msg': msg,
 		}
-		return render_to_response("membership/reset_password.html", context, context_instance=RequestContext(request))
+		return render_to_response("membership/password_reset_request.html", context, context_instance=RequestContext(request))
+
+	@classmethod
+	def password_reset(cls, request):
+		error = None
+		msg = None
+
+		if request.method == 'GET':
+			n = request.GET.get('n', None)
+			form = PasswordResetForm(initial={'nonce':n})
+
+		if request.method == 'POST':
+			username = request.POST['username']
+			nonce = request.POST['nonce']
+			new_password = request.POST['new_password']
+			error = True
+			form = PasswordResetForm(request.POST)
+			if len(new_password) > 0:
+				try:
+					maker = Maker.objects.get(username=username)
+					hour_ago = datetime.now() - timedelta(hours=1)
+					rn = ResetNonce.objects.filter(maker=maker, created__gte=hour_ago, nonce=nonce)
+					if len(rn):
+						error = False
+						msg = "Success"
+						maker.password = new_password
+						maker.save()
+						user = authenticate(username=maker.username, password=new_password)
+						login(request, user)
+						form = None
+					else:
+						msg = "Either username or nonce is wrong/expired"
+				except Maker.DoesNotExist:
+					msg = "Either username or nonce is wrong/expired"
+					pass
+			else:
+				msg = "Empty fields yo"
+
+		context = {
+			'here': 'password_reset',
+			'form': form,
+			'error': error,
+			'msg': msg,
+		}
+		return render_to_response("membership/password_reset.html", context, context_instance=RequestContext(request))
 
 	@classmethod
 	@require_maker_login

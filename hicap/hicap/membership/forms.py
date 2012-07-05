@@ -14,5 +14,10 @@ class PasswordChangeForm(forms.Form):
 	old_password = forms.fields.CharField(widget=forms.widgets.PasswordInput(attrs={"placeholder": "Password"}))
 	new_password = forms.fields.CharField(widget=forms.widgets.PasswordInput(attrs={"placeholder": "New Password"}))
 
+class PasswordResetRequestForm(forms.Form):
+	username = forms.fields.CharField(widget=forms.widgets.TextInput(attrs={"placeholder": "Username"}))
+
 class PasswordResetForm(forms.Form):
 	username = forms.fields.CharField(widget=forms.widgets.TextInput(attrs={"placeholder": "Username"}))
+	nonce = forms.fields.CharField(widget=forms.widgets.TextInput(attrs={"placeholder": "Nonce"}))
+	new_password = forms.fields.CharField(widget=forms.widgets.PasswordInput(attrs={"placeholder": "New Password"}))

@@ -2,7 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import messages
 import datetime
+import uuid
 from hicap.billing.models import MembershipPayment
+from hicap.membership.email import send_password_reset
+
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save
 
@@ -106,10 +109,22 @@ class Maker(models.Model):
 			'email': self.email,
 		}
 
-	def send_reset_password(self):
-		print "sending reset password"
+	def send_password_reset(self):
+		rn = ResetNonce.create_for_maker(self)
+		send_password_reset(rn)
 
 
+class ResetNonce(models.Model):
+	maker = models.ForeignKey(Maker)
+	nonce = models.CharField(max_length=255)
+	created = models.DateTimeField(_('created'), default=datetime.datetime.now)
+	
+	@staticmethod
+	def create_for_maker(maker):
+		rn = ResetNonce(maker=maker)
+		rn.nonce = str(uuid.uuid4())
+		rn.save()
+		return rn
 
 def on_post_save(instance, **kwargs):
 	if instance._password_set is not None:

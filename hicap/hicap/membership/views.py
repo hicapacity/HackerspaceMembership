@@ -67,7 +67,7 @@ class MemberView(object):
 
 	@classmethod
 	@require_maker_login
-	def profile(cls, request, maker):
+	def info(cls, request, maker):
 		if request.method == 'POST':
 			form = MakerProfileForm(request.POST, instance = maker)
 			error = True
@@ -85,13 +85,13 @@ class MemberView(object):
 			error = None
 			msg = None
 		context = {
-			'here': 'profile',
+			'here': 'info',
 			'maker': maker,
 			'form': form,
 			'error': error,
 			'msg': msg,
 		}
-		return render_to_response("membership/profile.html", context, context_instance=RequestContext(request))
+		return render_to_response("membership/info.html", context, context_instance=RequestContext(request))
 
 	@classmethod
 	@require_maker_login
@@ -220,6 +220,15 @@ class MemberView(object):
 			'makers': makers,
 		}
 		return render_to_response("membership/community.html", context, context_instance=RequestContext(request))
+
+	@classmethod
+	@require_maker_login
+	def profile(cls, request, maker):
+		context = {
+			'here': 'profile',
+		}
+		return render_to_response("membership/profile.html", context, context_instance=RequestContext(request))
+
 
 
 @staff_member_required

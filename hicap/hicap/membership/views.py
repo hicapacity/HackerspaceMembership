@@ -211,7 +211,7 @@ class MemberView(object):
 
 	@classmethod
 	@require_maker_login
-	def community(cls, request):
+	def community(cls, request, maker):
 		_makers = Maker.objects.filter(publish_membership=True).select_related()
 		makers = [m for m in _makers if m.is_current()]
 		context = {

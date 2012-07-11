@@ -36,7 +36,7 @@ def create_profile_form(meta):
 			max_length = 255,
 			required = False,
 			label = field['label'],
-			widget = forms.TextInput(attrs={"class":".tagify"})
+			widget = forms.Textarea(attrs={"class":"tagify"})
 		)
 	_TagsForm = type("_TagsForm", (forms.Form,), _TagsFields)
 

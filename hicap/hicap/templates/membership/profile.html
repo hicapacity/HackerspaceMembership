@@ -1,6 +1,15 @@
 {% extends "page.html" %}
+{% block extra_css %}
+	<link rel="stylesheet" type="text/css" href="/static/css/tagify-style.css">
+{% endblock %}
 {% block extra_js %}
-
+	<script src="/static/js/jquery-ui.min.js" type="text/javascript"></script>
+	<script src="/static/js/jquery.tagify.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.tagify').tagify({delimiters:[13, 188]});
+		});
+	</script>
 {% endblock %}
 {% block body_content %}
 <h1>Your Profile</h1>

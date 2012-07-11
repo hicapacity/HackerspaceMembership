@@ -225,12 +225,13 @@ class MemberView(object):
 	@require_maker_login
 	def profile(cls, request, maker):
 		meta = maker.profile_data
-		LinksForm = create_profile_form(meta)
+		LinksForm, TagsForm = create_profile_form(meta)
 		context = {
 			'here': 'profile',
 			'maker': maker,
 			'meta': meta,
-			'form': LinksForm,
+			'links_form': LinksForm,
+			'tags_form': TagsForm,
 		}
 		return render_to_response("membership/profile.html", context, context_instance=RequestContext(request))
 

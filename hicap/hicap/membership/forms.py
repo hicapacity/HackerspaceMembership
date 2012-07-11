@@ -30,6 +30,16 @@ class PasswordResetForm(forms.Form):
 	new_password = forms.fields.CharField(widget=forms.widgets.PasswordInput(attrs={"placeholder": "New Password"}))
 
 def create_profile_form(meta):
+	_TagsFields = {}
+	for field in profile_schema['tags']:
+		_TagsFields[field['id']] = forms.CharField(
+			max_length = 255,
+			required = False,
+			label = field['label'],
+			widget = forms.TextInput(attrs={"class":".tagify"})
+		)
+	_TagsForm = type("_TagsForm", (forms.Form,), _TagsFields)
+
 	_LinksFields = {}
 	for field in profile_schema['links']:
 		_LinksFields[field['id']] = forms.CharField(
@@ -37,9 +47,9 @@ def create_profile_form(meta):
 			required = False,
 			help_text = field['prefix']
 		)
-	_LinksForm = type("_Form", (forms.Form,), _LinksFields)
+	_LinksForm = type("_LinksForm", (forms.Form,), _LinksFields)
 
-	return _LinksForm()
+	return _LinksForm(), _TagsForm()
 
 
 

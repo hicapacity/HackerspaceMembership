@@ -6,7 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from hicap.membership.models import Maker, ResetNonce
-from hicap.membership.forms import MakerAuthForm, MakerProfileForm, PasswordChangeForm, PasswordResetForm, PasswordResetRequestForm
+from hicap.membership.forms import MakerAuthForm, MakerProfileForm, PasswordChangeForm, PasswordResetForm, PasswordResetRequestForm, create_profile_form
 from hicap.billing.models import MembershipPayment, Donation
 from datetime import datetime, date, timedelta
 from decimal import Decimal
@@ -224,8 +224,13 @@ class MemberView(object):
 	@classmethod
 	@require_maker_login
 	def profile(cls, request, maker):
+		meta = maker.profile_data
+		LinksForm = create_profile_form(meta)
 		context = {
 			'here': 'profile',
+			'maker': maker,
+			'meta': meta,
+			'form': LinksForm,
 		}
 		return render_to_response("membership/profile.html", context, context_instance=RequestContext(request))
 

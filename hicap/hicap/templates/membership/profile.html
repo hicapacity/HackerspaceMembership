@@ -1,6 +1,10 @@
 {% extends "page.html" %}
 {% block body_content %}
 <h1>Your Profile</h1>
+{% if maker.is_public == False %}
+	<p class="alert">Your profile isn't public</p>
+{% endif %}
+{{ form.as_p }}
 {% endblock body_content %}
 {% block sidebar_content %}
 	{% include "membership/sidebar.html" %}

@@ -7,3 +7,4 @@ hg+https://bitbucket.org/rsalmaso/django-admin-tools
 git+https://github.com/dcramer/django-paypal.git
 uwsgi
 paypal
+PyYAML

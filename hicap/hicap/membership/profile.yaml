@@ -1,0 +1,17 @@
+profile:
+    links:
+        - id: github
+          type: link
+          prefix: https://github.com/
+        - id: bitbucket
+          type: link
+          prefix: http://bitbucket.org/
+        - id: facebook
+          type: link
+          prefix: https://facebook.com/
+        - id: twitter
+          type: link
+          prefix: https://twitter.com/
+    interests:
+        - id: topics
+          type: tags

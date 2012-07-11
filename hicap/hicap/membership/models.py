@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib import messages
 import datetime
@@ -76,6 +77,11 @@ class Maker(models.Model):
 			return self.associated_user.is_staff
 		return False
 
+	@property
+	def is_public(self):
+		print self.publish_membership
+		return self.publish_membership
+
 	def has_perm(self, perm, obj=None):
 		if self.associated_user:
 			return self.associated_user.has_perm(perm, obj)
@@ -113,6 +119,9 @@ class Maker(models.Model):
 		rn = ResetNonce.create_for_maker(self)
 		send_password_reset(rn)
 
+	@property
+	def profile_data(self):
+		return self.profileinfo_set.all()
 
 class ResetNonce(models.Model):
 	maker = models.ForeignKey(Maker)
@@ -125,6 +134,11 @@ class ResetNonce(models.Model):
 		rn.nonce = str(uuid.uuid4())
 		rn.save()
 		return rn
+
+class ProfileInfo(models.Model):
+	maker = models.ForeignKey(Maker)
+	key = models.CharField(max_length=255)
+	value = models.TextField()
 
 def on_post_save(instance, **kwargs):
 	if instance._password_set is not None:

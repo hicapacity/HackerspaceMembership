@@ -16,25 +16,31 @@
 {% if maker.is_public == False %}
 	<p class="alert">Your profile isn't public</p>
 {% endif %}
-<div class="row-fluid">
-	<div class="span6">
-		<hr>
-		<h2>Interests</h2>
-		{{ tags_form.as_p }}
-		<hr>
+<form action="" method="POST">
+	{% csrf_token %}
+	<div class="row-fluid">
+		<div class="span6">
+			<hr>
+			<h2>Interests</h2>
+			{{ tags_form.as_p }}
+			<hr>
+		</div>
+		<div class="span6">
+			<hr>
+			<h2>Links</h2>
+			{% for field in links_form %}
+			<p>
+				{{ field.help_text }}
+				{{ field }}
+			</p>
+			{% endfor %}
+			<hr>
+		</div>
 	</div>
-	<div class="span6">
-		<hr>
-		<h2>Links</h2>
-		{% for field in links_form %}
-		<p>
-			{{ field.help_text }}
-			{{ field }}
-		</p>
-		{% endfor %}
-		<hr>
+	<div class="row-fluid">
+		<input type="submit" value="Save">
 	</div>
-</div>
+</form>
 {% endblock body_content %}
 {% block sidebar_content %}
 	{% include "membership/sidebar.html" %}

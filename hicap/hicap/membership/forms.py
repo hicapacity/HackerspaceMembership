@@ -29,7 +29,7 @@ class PasswordResetForm(forms.Form):
 	nonce = forms.fields.CharField(widget=forms.widgets.TextInput(attrs={"placeholder": "Nonce"}))
 	new_password = forms.fields.CharField(widget=forms.widgets.PasswordInput(attrs={"placeholder": "New Password"}))
 
-def create_profile_form(meta):
+def create_profile_form():
 	_TagsFields = {}
 	for field in profile_schema['tags']:
 		_TagsFields[field['id']] = forms.CharField(
@@ -49,7 +49,7 @@ def create_profile_form(meta):
 		)
 	_LinksForm = type("_LinksForm", (forms.Form,), _LinksFields)
 
-	return _LinksForm(), _TagsForm()
+	return _LinksForm, _TagsForm
 
 
 

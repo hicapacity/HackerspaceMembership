@@ -229,6 +229,10 @@ class MemberView(object):
 		if request.method == 'POST':
 			linksForm = LinksForm(request.POST)
 			tagsForm = TagsForm(request.POST)
+			for field in linksForm:
+				print field.name, field.value()
+			for field in tagsForm:
+				print field.name, field.value()
 		else:
 			linksForm = LinksForm()
 			tagsForm = TagsForm()

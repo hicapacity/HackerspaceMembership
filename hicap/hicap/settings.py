@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     'paypal.standard.ipn',
     'hicap.membership',
     'hicap.billing',
+		'gravatar',
 )
 
 # A sample logging configuration. The only tangible logging

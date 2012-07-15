@@ -25,6 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
 </head>
 <body class="{% block body_class %}{% endblock body_class %}">
+	{% block navigation %}
 	<div class="navbar">
 		<div class="navbar-inner">
 			<div class="container">
@@ -32,6 +33,7 @@
 			</div>
 		</div>
 	</div>
+	{% endblock %}
 	<div class="container-fluid">
 		<div class="row-fluid">
 			{% block sidebar %}
@@ -49,10 +51,12 @@
 			</div>
 			{% endblock body %}
 		</div>
+		{% block footer %}
 		<hr>
 		<footer>
 			{% include "partials/footer.html" %}
 		</footer>
+		{% endblock %}
 	</div>
 </body>
 </html>

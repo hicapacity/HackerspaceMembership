@@ -1,0 +1,14 @@
+{% extends "page.html" %}
+{% block body_content %}
+<h1>No Preview</h1>
+<div class="alert">
+<ul>
+{% for reason in reasons %}
+	<li>{{ reason }}</li>
+{% endfor %}
+</ul>
+</div>
+{% endblock body_content %}
+{% block sidebar_content %}
+	{% include "membership/sidebar.html" %}
+{% endblock sidebar_content %}

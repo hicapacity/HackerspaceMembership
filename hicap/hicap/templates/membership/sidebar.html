@@ -36,3 +36,10 @@
 			<a href="{% url maker_profile %}">Edit Profile</a>
 		{% endif %}
 	</li>
+	<li>
+		{% if here == 'preview' %}
+			Preview Profile
+		{% else %}
+			<a href="{% url maker_preview %}">Preview Profile</a>
+		{% endif %}
+	</li>

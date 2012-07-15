@@ -245,6 +245,23 @@ class MemberView(object):
 		}
 		return render_to_response("membership/profile.html", context, context_instance=RequestContext(request))
 
+	@classmethod
+	@require_maker_login
+	def preview(cls, request, maker):
+		if not maker.is_current():
+			reasons = ['Your profile isn\'t current',]
+			context = {
+				'here': 'preview',
+				'maker': maker,
+				'reasons': reasons
+			}
+			return render_to_response("membership/no_preview.html", context, context_instance=RequestContext(request))
+		context = {
+			'here': 'preview',
+			'maker': maker,
+		}
+		return render_to_response("membership/preview.html", context, context_instance=RequestContext(request))
+
 
 
 @staff_member_required

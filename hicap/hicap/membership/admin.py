@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django import forms
 from form_utils.forms import BetterModelForm
 
-from hicap.membership.models import Maker
+from hicap.membership.models import Maker, ProfileInfo
 from hicap.billing.models import MembershipPayment, Donation
 
 class DonationInlineAdmin(admin.StackedInline):
@@ -55,4 +55,5 @@ class MakerAdmin(admin.ModelAdmin):
 		)
 
 admin.site.register(Maker, MakerAdmin)
+admin.site.register(ProfileInfo)
 

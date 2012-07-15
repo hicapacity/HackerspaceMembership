@@ -234,8 +234,8 @@ class MemberView(object):
 			for field in tagsForm:
 				meta.update(field.name, field.value())
 		else:
-			linksForm = LinksForm()
-			tagsForm = TagsForm()
+			linksForm = LinksForm(meta.data)
+			tagsForm = TagsForm(meta.data)
 		context = {
 			'here': 'profile',
 			'maker': maker,

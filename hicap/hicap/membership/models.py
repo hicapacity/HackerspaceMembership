@@ -161,7 +161,12 @@ class ProfileDataManager(object):
 			)
 			pi.save()
 		elif name in self.data and self.data[name] != value:
-			print "Need to update"
+			pi = ProfileInfo.objects.get(maker=self.maker, key=name)
+			if value != '':
+				pi.value = value
+				pi.save()
+			else:
+				print "Need to delete"
 		else:
 			pass
 	

@@ -140,6 +140,13 @@ class ProfileInfo(models.Model):
 	key = models.CharField(max_length=255)
 	value = models.TextField()
 
+	def __unicode__(self):
+		return "{name}: {key} -> {value}".format(
+			name = self.maker.username,
+			key = self.key,
+			value = self.value
+		)
+
 class ProfileDataManager(object):
 	def __init__(self, maker, data):
 		self.maker = maker

@@ -166,7 +166,7 @@ class ProfileDataManager(object):
 				pi.value = value
 				pi.save()
 			else:
-				print "Need to delete"
+				pi.delete()
 		else:
 			pass
 	

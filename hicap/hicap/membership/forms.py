@@ -1,5 +1,6 @@
 from django import forms
 from django.conf import settings
+from django.core import validators
 from hicap.membership.models import Maker
 
 import yaml
@@ -45,7 +46,8 @@ def create_profile_form():
 		_LinksFields[field['id']] = forms.CharField(
 			max_length = 255,
 			required = False,
-			help_text = field['prefix']
+			help_text = field['prefix'],
+			validators = [validators.validate_slug,]
 		)
 	_LinksForm = type("_LinksForm", (forms.Form,), _LinksFields)
 

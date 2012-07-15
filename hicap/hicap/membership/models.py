@@ -121,7 +121,7 @@ class Maker(models.Model):
 
 	@property
 	def profile_data(self):
-		return self.profileinfo_set.all()
+		return ProfileDataManager(self, self.profileinfo_set.all())
 
 class ResetNonce(models.Model):
 	maker = models.ForeignKey(Maker)
@@ -139,6 +139,32 @@ class ProfileInfo(models.Model):
 	maker = models.ForeignKey(Maker)
 	key = models.CharField(max_length=255)
 	value = models.TextField()
+
+class ProfileDataManager(object):
+	def __init__(self, maker, data):
+		self.maker = maker
+		self._queryset = data
+		self._data = dict((i.key, i.value) for i in data)
+		self.has_changed = False
+
+	@property
+	def data(self):
+		return self._data
+
+	def update(self, name, value):
+		if name not in self.data and value != '':
+			self.data[name] = value
+			pi = ProfileInfo(
+				maker = self.maker,
+				key = name,
+				value = value
+			)
+			pi.save()
+		elif name in self.data and self.data[name] != value:
+			print "Need to update"
+		else:
+			pass
+	
 
 def on_post_save(instance, **kwargs):
 	if instance._password_set is not None:

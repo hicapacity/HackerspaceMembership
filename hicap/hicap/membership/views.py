@@ -230,16 +230,16 @@ class MemberView(object):
 			linksForm = LinksForm(request.POST)
 			tagsForm = TagsForm(request.POST)
 			for field in linksForm:
-				print field.name, field.value()
+				meta.update(field.name, field.value())
 			for field in tagsForm:
-				print field.name, field.value()
+				meta.update(field.name, field.value())
 		else:
 			linksForm = LinksForm()
 			tagsForm = TagsForm()
 		context = {
 			'here': 'profile',
 			'maker': maker,
-			'meta': meta,
+			'meta': meta.data,
 			'links_form': linksForm,
 			'tags_form': tagsForm,
 		}

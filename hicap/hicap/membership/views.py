@@ -234,7 +234,7 @@ class MemberView(object):
 			for field in chain(infoForm, linksForm, tagsForm):
 				meta.update(field.name, field.value())
 		else:
-			infoForm = InfoForm(request.POST)
+			infoForm = InfoForm(meta.data)
 			linksForm = LinksForm(meta.data)
 			tagsForm = TagsForm(meta.data)
 		context = {
@@ -262,6 +262,7 @@ class MemberView(object):
 		context = {
 			'here': 'preview',
 			'maker': maker,
+			'info': meta.info,
 			'links': meta.links,
 			'tags': meta.tags,
 		}

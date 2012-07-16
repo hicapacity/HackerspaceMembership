@@ -185,6 +185,19 @@ class ProfileDataManager(object):
 			pass
 
 	@property
+	def info(self):
+		ret = []
+		for field in profile_schema['info']:
+			if field['id'] not in self.data:
+				continue
+			ret.append({
+				'id': field['id'],
+				'label': field['label'],
+				'values': field['id']
+			})			
+		return ret
+
+	@property
 	def tags(self):
 		ret = []
 		for field in profile_schema['tags']:

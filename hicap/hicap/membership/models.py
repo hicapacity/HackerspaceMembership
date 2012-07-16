@@ -166,7 +166,7 @@ class ProfileDataManager(object):
 		return self._data
 
 	def update(self, name, value):
-		if name not in self.data and value != '':
+		if name not in self.data and value not in ('', None):
 			self.data[name] = value
 			pi = ProfileInfo(
 				maker = self.maker,

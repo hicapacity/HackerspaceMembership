@@ -13,6 +13,7 @@ from decimal import Decimal
 import time
 
 import json
+from itertools import chain
 
 def get_this_month():
 	date = datetime.now()
@@ -225,21 +226,22 @@ class MemberView(object):
 	@require_maker_login
 	def profile(cls, request, maker):
 		meta = maker.profile_data
-		LinksForm, TagsForm = create_profile_form()
+		InfoForm, LinksForm, TagsForm = create_profile_form()
 		if request.method == 'POST':
+			infoForm = InfoForm(request.POST)
 			linksForm = LinksForm(request.POST)
 			tagsForm = TagsForm(request.POST)
-			for field in linksForm:
-				meta.update(field.name, field.value())
-			for field in tagsForm:
+			for field in chain(infoForm, linksForm, tagsForm):
 				meta.update(field.name, field.value())
 		else:
+			infoForm = InfoForm(request.POST)
 			linksForm = LinksForm(meta.data)
 			tagsForm = TagsForm(meta.data)
 		context = {
 			'here': 'profile',
 			'maker': maker,
 			'meta': meta.data,
+			'info_form': infoForm,
 			'links_form': linksForm,
 			'tags_form': tagsForm,
 		}

@@ -6,6 +6,7 @@ import datetime
 import uuid
 from hicap.billing.models import MembershipPayment
 from hicap.membership.email import send_password_reset
+from hicap.utils import AttrDict
 
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save
@@ -186,42 +187,42 @@ class ProfileDataManager(object):
 
 	@property
 	def info(self):
-		ret = []
+		ret = {}
 		for field in profile_schema['info']:
 			if field['id'] not in self.data:
 				continue
-			ret.append({
+			ret[field['id']] = {
 				'id': field['id'],
 				'label': field['label'],
-				'values': field['id']
-			})			
+				'value': self.data[field['id']]
+			}
 		return ret
 
 	@property
 	def tags(self):
-		ret = []
+		ret = {}
 		for field in profile_schema['tags']:
 			if field['id'] not in self.data:
 				continue
-			ret.append({
+			ret[field['id']] = {
 				'id': field['id'],
 				'label': field['label'],
 				'values': self.data[field['id']].split(',')
-			})			
+			}
 		return ret
 
 	@property
 	def links(self):
-		ret = []
+		ret = {}
 		for field in profile_schema['links']:
 			if field['id'] not in self.data:
 				continue
-			ret.append({
+			ret[field['id']] = {
 				'id': field['id'],
 				'label': field['label'],
 				'prefix': field['prefix'],
 				'value': self.data[field['id']]
-			})
+			}
 		return ret
 
 def on_post_save(instance, **kwargs):

@@ -14,29 +14,27 @@
 				<h1><img src="http://hicapacity.org/img/hicap_logo_sm.png" alt="HiCapacity"></h1>
 				<h1>{{ maker.username }}</h1>
 				{% if 'location' in info %}
-					<h2>{{ info.location }}</h2>
+					<h2>{{ info.location.value }}</h2>
 				{% endif %}
 			</div>
 			<div id="details">
 				{% if 'bio' in info %}
-				<p><b>{{ maker.get_full_name }}</b>: {{ info.bio }}
+				<p><b>{{ maker.get_full_name }}</b>: {{ info.bio.value }}
 				{% endif %}
 				</p>
-				{% for link in links %}
+				{% for link in links.values %}
 				<p>
 					<b>{{ link.label }}</b>: 
 					<a href="{{ link.prefix }}{{ link.value }}">{{ link.prefix }}{{ link.value }}</a>
 				</p>
 				{% endfor %}
-				{% if tags %}
-					{% for tag in tags %}
-						<p><b>{{ tag.label }}</b>:
-						{% for value in tag.values %}
-							{{ value }}
-						{% endfor %}
-						</p>
+				{% for tag in tags.values %}
+					<p><b>{{ tag.label }}</b>:<br>
+					{% for value in tag.values %}
+						{{ value }}
 					{% endfor %}
-				{% endif %}
+					</p>
+				{% endfor %}
 			</div>
 		</div>
 		<div class="span6">

@@ -9,10 +9,11 @@
 		$(document).ready(function(){
 			var $tags = $('.tagify');
 			$tags.each(function(i, e){
-				$tags.tagify();
-				var $parent = $tags.parents('form');
+				var $e = $(e);
+				$e.tagify();
+				var $parent = $e.parents('form');
 				$parent.bind("submit", function(e){
-					$tags.tagify('serialize');
+					$e.tagify('serialize');
 				});
 			});
 		});

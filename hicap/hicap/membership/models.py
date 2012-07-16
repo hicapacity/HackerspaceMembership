@@ -87,7 +87,6 @@ class Maker(models.Model):
 
 	@property
 	def is_public(self):
-		print self.publish_membership
 		return self.publish_membership
 
 	def has_perm(self, perm, obj=None):

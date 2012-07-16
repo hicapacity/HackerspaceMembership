@@ -5,6 +5,8 @@ profile:
         - id: bio
           label: Biography
           type: textarea
+        - id: resume
+          label: Resume
     links:
         - id: github
           prefix: https://github.com/

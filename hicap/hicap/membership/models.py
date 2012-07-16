@@ -193,7 +193,7 @@ class ProfileDataManager(object):
 			ret.append({
 				'id': field['id'],
 				'label': field['label'],
-				'value': ', '.join(self.data[field['id']].split(','))
+				'values': self.data[field['id']].split(',')
 			})			
 		return ret
 
@@ -205,6 +205,7 @@ class ProfileDataManager(object):
 				continue
 			ret.append({
 				'id': field['id'],
+				'label': field['label'],
 				'prefix': field['prefix'],
 				'value': self.data[field['id']]
 			})

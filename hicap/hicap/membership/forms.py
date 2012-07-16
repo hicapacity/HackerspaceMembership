@@ -24,28 +24,46 @@ class PasswordResetForm(forms.Form):
 	nonce = forms.fields.CharField(widget=forms.widgets.TextInput(attrs={"placeholder": "Nonce"}))
 	new_password = forms.fields.CharField(widget=forms.widgets.PasswordInput(attrs={"placeholder": "New Password"}))
 
+def fields_from_spec(data):
+	fields = {}
+	for f in data:
+		opts = {}
+		opts['required'] = False
+		opts['label'] = f['label']
+		if 'type' in f:
+			if f['type'] == 'tagify':
+				opts['widget'] = forms.Textarea(attrs={"class":"tagify"})
+			if f['type'] == 'textarea':
+				opts['widget'] = forms.Textarea()
+		else:
+			opts['max_length'] = 255
+
+		if 'prefix' in f:
+			opts['help_text'] = f['prefix']
+			
+		fields[f['id']] = forms.CharField(**opts)
+	return fields
+
 def create_profile_form():
-	_TagsFields = {}
-	for field in profile_schema['tags']:
-		_TagsFields[field['id']] = forms.CharField(
-			max_length = 255,
-			required = False,
-			label = field['label'],
-			widget = forms.Textarea(attrs={"class":"tagify"})
-		)
-	_TagsForm = type("_TagsForm", (forms.Form,), _TagsFields)
+	_InfoForm = type(
+		"_InfoFields",
+		(forms.Form,),
+		fields_from_spec(profile_schema['info'])
+	)
 
-	_LinksFields = {}
-	for field in profile_schema['links']:
-		_LinksFields[field['id']] = forms.CharField(
-			max_length = 255,
-			required = False,
-			help_text = field['prefix'],
-			validators = [validators.validate_slug,]
-		)
-	_LinksForm = type("_LinksForm", (forms.Form,), _LinksFields)
+	_TagsForm = type(
+		"_TagsForm",
+		(forms.Form,),
+		fields_from_spec(profile_schema['tags'])
+	)
 
-	return _LinksForm, _TagsForm
+	_LinksForm = type(
+		"_LinksForm",
+		(forms.Form,),
+		fields_from_spec(profile_schema['links'])
+	)
+
+	return _InfoForm, _LinksForm, _TagsForm
 
 
 

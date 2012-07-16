@@ -1,15 +1,27 @@
 profile:
+    info:
+        - id: location
+          label: Location
+        - id: bio
+          label: Biography
+          type: textarea
     links:
         - id: github
           prefix: https://github.com/
+          label: Github
         - id: bitbucket
           prefix: http://bitbucket.org/
+          label: Bitbucket
         - id: facebook
           prefix: https://facebook.com/
+          label: Facebook
         - id: twitter
           prefix: https://twitter.com/
+          label: Twitter
     tags:
         - id: interests
           label: Personal Interests
+          type: tagify
         - id: skills
           label: Skills
+          type: tagify

@@ -1,3 +1,8 @@
+.spacer{
+	clear: both;
+	height: 0px;
+	width: 0px;
+}
 .hc_loginform{
 }
 .hc_loginform .control-group input{
@@ -24,20 +29,20 @@
 }
 
 body.profile {
-	background-color: #000;
+	background-color: #fff;
 }
 body.profile #body {
-	background-color: #fff;
 	position: relative;
 }
 body.profile #bcard {
 	position: relative;
 	padding-left: 140px;
+	height: 140px;
 }
 body.profile #profile_photo {
 	position: absolute;
 	top: 0px;
-	left: 18px;
+	left: 0px;
 	background-color: #fff;
 	padding: 0px 2px 2px 2px;
 	border-right: 1px solid #999;

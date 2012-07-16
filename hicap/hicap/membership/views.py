@@ -256,9 +256,12 @@ class MemberView(object):
 				'reasons': reasons
 			}
 			return render_to_response("membership/no_preview.html", context, context_instance=RequestContext(request))
+		meta = maker.profile_data
 		context = {
 			'here': 'preview',
 			'maker': maker,
+			'links': meta.links,
+			'tags': meta.tags,
 		}
 		return render_to_response("membership/preview.html", context, context_instance=RequestContext(request))
 

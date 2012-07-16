@@ -1,9 +1,46 @@
 {% extends "base.html" %}
+{% load gravatar %}
 {% block navigation %}{% endblock %}
 {% block sidebar %}{% endblock %}
 {% block footer %}{% endblock %}
+{% block body_class %}profile{% endblock %}
 {% block body %}
-	<div id="profile" class="span8">
-		<h1>Hello World</h1>
+	<div id="body" class="row-fluid">
+		<div id="info" class="span6">
+			<div id="bcard">
+				<div id="profile_photo">
+					{% gravatar_img_for_user maker 100 %}
+				</div>
+				<h1><img src="http://hicapacity.org/img/hicap_logo_sm.png" alt="HiCapacity"></h1>
+				<h1>{{ maker.username }}</h1>
+				<h2>maker.location</h2>
+			</div>
+			<div id="details">
+				{% for link in links %}
+					<a href="{{ link.prefix }}{{ link.value }}">{{ link.id|title }}</a>
+				{% endfor %}
+				{% if tags %}
+					<dl>
+					{% for tag in tags %}
+						<dt>{{ tag.label }}</dt>
+						<dd>{{ tag.value }}</dd>
+					{% endfor %}
+					</dl>
+				{% endif %}
+			</div>
+		</div>
+		<div class="span6">
+			<h3>Stuff</h3>
+			<h3>Stuff</h3>
+			<h3>Stuff</h3>
+			<h3>Stuff</h3>
+			<h3>Stuff</h3>
+			<h3>Stuff</h3>
+			<h3>Stuff</h3>
+			<h3>Stuff</h3>
+			<h3>Stuff</h3>
+			<h3>Stuff</h3>
+			<h3>Stuff</h3>
+		</div>
 	</div>
 {% endblock %}

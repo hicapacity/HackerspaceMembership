@@ -10,6 +10,13 @@ from hicap.membership.email import send_password_reset
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save
 
+import yaml
+import os
+
+with open(os.path.join(settings.BASE_PATH, "membership", "profile.yaml")) as fh:
+	profile_schema = yaml.load(fh)['profile']
+
+
 class Maker(models.Model):
 	username = models.CharField(_('username'), max_length=255, unique=True, help_text=_("Required. 30 characters or fewer. Letters, numbers and @/./+/-/_ characters"))
 	first_name = models.CharField(_('first name'), max_length=255, blank=True)
@@ -176,7 +183,32 @@ class ProfileDataManager(object):
 				pi.delete()
 		else:
 			pass
-	
+
+	@property
+	def tags(self):
+		ret = []
+		for field in profile_schema['tags']:
+			if field['id'] not in self.data:
+				continue
+			ret.append({
+				'id': field['id'],
+				'label': field['label'],
+				'value': ', '.join(self.data[field['id']].split(','))
+			})			
+		return ret
+
+	@property
+	def links(self):
+		ret = []
+		for field in profile_schema['links']:
+			if field['id'] not in self.data:
+				continue
+			ret.append({
+				'id': field['id'],
+				'prefix': field['prefix'],
+				'value': self.data[field['id']]
+			})
+		return ret
 
 def on_post_save(instance, **kwargs):
 	if instance._password_set is not None:

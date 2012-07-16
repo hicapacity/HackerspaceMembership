@@ -22,3 +22,25 @@
 	color: #900;
 	font-weight: bold;
 }
+
+body.profile {
+	background-color: #000;
+}
+body.profile #body {
+	background-color: #fff;
+	position: relative;
+}
+body.profile #bcard {
+	position: relative;
+	padding-left: 140px;
+}
+body.profile #profile_photo {
+	position: absolute;
+	top: 0px;
+	left: 18px;
+	background-color: #fff;
+	padding: 0px 2px 2px 2px;
+	border-right: 1px solid #999;
+	border-left: 1px solid #999;
+	border-bottom: 1px solid #999;
+}

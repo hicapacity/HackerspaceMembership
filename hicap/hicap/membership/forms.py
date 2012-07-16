@@ -1,13 +1,7 @@
 from django import forms
 from django.conf import settings
 from django.core import validators
-from hicap.membership.models import Maker
-
-import yaml
-import os
-
-with open(os.path.join(settings.BASE_PATH, "membership", "profile.yaml")) as fh:
-	profile_schema = yaml.load(fh)['profile']
+from hicap.membership.models import Maker, profile_schema
 
 class MakerAuthForm(forms.Form):
 	username = forms.fields.CharField(widget=forms.widgets.TextInput(attrs={"placeholder": "Username"}))
